@@ -108,16 +108,12 @@
     </header>
 
     <!-- Botão de música posicionado logo abaixo do título (não cobre o título) -->
-    <div class="music-wrap">
-      <button id="music-btn" aria-pressed="false">Tocar piano 🎹</button>
-      <div id="audio-error" role="status" aria-live="polite"></div>
-    </div>
-
-    <!-- Música de fundo (piano suave). preload tenta carregar; crossorigin ajuda quando o host permite -->
-    <audio id="bg-music" loop preload="auto">
-     <source src="piano.mp3" type="audio/mpeg">
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+      <source src="https://files.catbox.moe/1xq4p9.mp3" type="audio/mpeg">
       Seu navegador não suporta áudio embutido.
-   </audio>
+    </audio>
+
+    <section class="message" id="message">
     
 Oi moça…
 
@@ -271,5 +267,6 @@ permita-me ser o teu lar.
   </script>
 </body>
 </html>
+
 
 
