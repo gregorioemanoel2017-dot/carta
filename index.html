@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f7efe6;
       --paper:#fffdf7;
       --ink:#2b2b2b;
       --accent:#8b5e3c;
@@ -24,12 +23,10 @@
       display:block;
       padding: env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
     }
-
-    /* container principal alinhado ao topo (não centraliza verticalmente) */
     main.card {
       width:100%;
       max-width:var(--max-width);
-      margin: 12px auto;
+      margin:12px auto;
       background: var(--paper);
       border-radius:14px;
       padding:18px 20px;
@@ -44,12 +41,9 @@
       background-position: center top;
       background-blend-mode: multiply;
     }
-
     header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .title{font-family:'Playfair Display', serif; font-size:18px; color:var(--accent); text-transform:lowercase}
     .date{font-size:12px; color:rgba(43,43,43,0.55)}
-
-    /* Botão - posicionado depois do header para não cobrir o título */
     .music-wrap{ text-align:center; margin:10px 0 16px 0; }
     #music-btn{
       padding:10px 18px;
@@ -62,7 +56,6 @@
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
     }
-
     .message{
       margin-top:6px;
       font-size:16px;
@@ -70,33 +63,19 @@
       white-space:pre-wrap;
       color:var(--ink);
     }
-
     .footer{margin-top:18px; display:flex; justify-content:flex-end}
     .signature{font-size:15px; color:rgba(43,43,43,0.75); font-weight:600}
-
-    /* mobile tweaks */
     @media (max-width:480px){
       .card{padding:16px 14px; border-radius:12px}
       .title{font-size:16px}
       .message{font-size:17px}
       #music-btn{width:100%}
     }
-
-    /* dark mode */
     @media (prefers-color-scheme:dark){
-      :root{--bg:#0f0f10; --paper:#121212; --ink:#e6e1db; --accent:#d6b89b}
+      :root{--paper:#121212; --ink:#e6e1db; --accent:#d6b89b}
       body{background:linear-gradient(180deg,#0b0b0b 0%, #131313 100%)}
       main.card{background:#0f0f0f; box-shadow:none; border:1px solid rgba(214,184,155,0.04)}
       #music-btn{background:#3f2b1f}
-    }
-
-    /* pequena notificação de erro (invisível por padrão) */
-    #audio-error {
-      display:none;
-      margin-top:10px;
-      text-align:center;
-      color:#b02a2a;
-      font-size:13px;
     }
   </style>
 </head>
@@ -107,14 +86,18 @@
       <div class="date">Hoje</div>
     </header>
 
-    <!-- Botão de música posicionado logo abaixo do título (não cobre o título) -->
-    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
-      <source src="https://files.catbox.moe/1xq4p9.mp3" type="audio/mpeg">
+    <!-- audio references a piano.mp3 that must be uploaded alongside this index.html -->
+    <div class="music-wrap">
+      <button id="music-btn" aria-pressed="false">Tocar piano 🎹</button>
+      <div id="audio-error" role="status" aria-live="polite" style="display:none; margin-top:8px; color:#b02a2a; font-size:13px;"></div>
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+      <source src="piano.mp3" type="audio/mpeg">
       Seu navegador não suporta áudio embutido.
     </audio>
 
     <section class="message" id="message">
-    
 Oi moça…
 
 moça, sim — porque “menina” já não combina contigo há muito tempo.
@@ -226,27 +209,22 @@ permita-me ser o teu lar.
   </main>
 
   <script>
-    // garante rolagem para topo (evita abrir no meio do texto)
-    window.addEventListener('load', function() {
-      setTimeout(function(){ window.scrollTo(0,0); }, 60);
-    });
+    // rolagem para topo
+    window.addEventListener('load', function() { setTimeout(function(){ window.scrollTo(0,0); }, 60); });
 
     const music = document.getElementById('bg-music');
     const btn = document.getElementById('music-btn');
     const audioError = document.getElementById('audio-error');
 
-    // Atualiza estado do botão
     function setPlayingState(isPlaying){
       btn.setAttribute('aria-pressed', String(!!isPlaying));
       btn.textContent = isPlaying ? 'Pausar piano ⏸️' : 'Tocar piano 🎹';
     }
 
-    // Tenta tocar quando o usuário clica. Tratamento de erros para navegadores que bloqueiam reprodução.
-    btn.addEventListener('click', async function(){
+    btn.addEventListener('click', async () => {
       audioError.style.display = 'none';
       try {
         if (music.paused) {
-          // chamada play retorna uma Promise; lidar com rejeição
           await music.play();
           setPlayingState(true);
         } else {
@@ -254,19 +232,14 @@ permita-me ser o teu lar.
           setPlayingState(false);
         }
       } catch (err) {
-        // mostra mensagem amigável com possíveis causas
         audioError.style.display = 'block';
-        audioError.textContent = 'Não foi possível reproduzir o áudio aqui. Abra a página no navegador (ex.: Chrome) ou verifique a conexão/URL do arquivo.';
-        console.warn('Erro ao tentar reproduzir áudio:', err);
+        audioError.innerHTML = 'Não foi possível reproduzir o áudio aqui. Abra a página no <strong>Chrome</strong> ou verifique se o arquivo <code>piano.mp3</code> foi enviado para o repositório.';
+        console.warn('Erro ao tocar áudio:', err);
       }
     });
 
-    // Se o áudio terminar por algum motivo (não deveria, pois loop=true), atualiza botão
     music.addEventListener('pause', () => setPlayingState(false));
     music.addEventListener('play', () => setPlayingState(true));
   </script>
 </body>
 </html>
-
-
-
