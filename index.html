@@ -1,125 +1,53 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Para a moça — carta</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --paper:#f4ecd8;
-      --ink:#2e2a24;
-      --accent:#a67c52;
-    }
-    html,body{height:100%; margin:0; padding:0; box-sizing:border-box;}
-    body{
-      font-family: 'Merriweather', serif;
-      background-color:var(--paper);
-      color:var(--ink);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      padding:28px;
-    }
-    .page{
-      width:100%;
-      max-width:880px;
-      background: repeating-linear-gradient(45deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 30px),
-                  linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.02));
-      border-radius:12px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
-      padding:40px 48px;
-      border:1px solid rgba(166,124,82,0.12);
-      background-color:var(--paper);
-      background-image: url('https://i.imgur.com/0ZHzpQO.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center top;
-      background-blend-mode: multiply;
-    }
-    header{ text-align:center; margin-bottom:20px }
-    h1{ margin:0; font-family:'Playfair Display', serif; font-size:clamp(20px, 4.5vw, 34px); color:var(--accent); text-transform:lowercase }
-    .subtitle{ margin-top:8px; font-size:13px; color:rgba(46,42,36,0.6); font-style:italic; }
-    article.poem{ font-size:clamp(16px,3.6vw,18px); line-height:1.75; color:var(--ink); text-align:left }
-    article.poem p{ margin:0 0 12px 0 }
-    .byline{ margin-top:18px; display:flex; justify-content:flex-end; color:rgba(46,42,36,0.65) }
-    .music-wrap{ text-align:center; margin:18px 0; }
-    #music-btn{ padding:10px 18px; border:none; border-radius:8px; background:#8b5e3c; color:white; font-size:14px; font-weight:600; cursor:pointer; }
-    #audio-status{ margin-top:8px; font-size:13px; color:#444; }
-    @media (max-width:480px){ .page{padding:28px 20px} h1{font-size:26px} article.poem{font-size:17px} }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta para a moça</title>
+<style>
+body {
+  margin:0; padding:20px;
+  background:#f4ecd8;
+  font-family: Georgia, serif;
+  display:flex; justify-content:center;
+}
+.page {
+  width:100%; max-width:860px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP88uYGAwMDEwMDAwMDAwAg5gK831H+agAAAABJRU5ErkJggg==');
+  background-size: 100px 100px;
+  border-radius:12px;
+  padding:30px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.15);
+}
+#music-btn {
+  padding:10px 18px; border:none; border-radius:8px;
+  background:#8b5e3c; color:white; font-size:15px;
+}
+</style>
 </head>
 <body>
-  <div class="page" role="main" aria-label="Carta para a moça">
-    <header>
-      <h1>para a moça</h1>
-      <div class="subtitle">Hoje — uma carta</div>
-    </header>
+<div class="page">
+<h2 style="text-align:center; color:#8b5e3c;">para a moça</h2>
 
-    <div class="music-wrap">
-      <button id="music-btn" aria-pressed="false">Tocar piano 🎹</button>
-      <div id="audio-status">Pronto — aguarde confirmação do áudio.</div>
-    </div>
+<button id="music-btn">Tocar piano 🎹</button>
+<audio id="bg" loop preload="auto">
+  <source src="piano.mp3" type="audio/mpeg">
+</audio>
 
-    <audio id="bg-music" loop preload="auto">
-      <source id="bg-src" src="piano.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio embutido.
-    </audio>
+<script>
+const btn = document.getElementById('music-btn');
+const audio = document.getElementById('bg');
+btn.onclick = async () => {
+  try { await audio.play(); btn.textContent = "Pausar piano ⏸️"; }
+  catch(e){ alert("Abra no Chrome para tocar o áudio."); }
+};
+</script>
 
-    <article class="poem" id="message">
-      <p>Oi moça…</p>
-      <p>moça, sim — porque “menina” já não combina contigo há muito tempo.</p>
-      <p>E talvez você não saiba que dia é hoje.</p>
-      <p>Mas eu sei.</p>
-      <p>Hoje faz exatamente 1 ano daquele nosso primeiro momento de entrega.</p>
-      <p>Não quero detalhar nada — isso fica guardado para quando formos velhinhos, sentados num sofá, rindo da nossa história.</p>
-      <p>O que quero é agradecer. De verdade. Agradecer por você ter confiado em mim.</p>
-      <p>Aquela noite não foi feita de perfeições, mas de coragem.</p>
-      <p>E quando te vi ali, não nua de roupa… mas nua de alma, eu vi suas cicatrizes, senti suas dores, e algo dentro de mim entendeu: “é ela.”</p>
-      <p>Você é linda — e isso eu posso falar mil vezes que vou continuar achando pouco.</p>
-      <p>Hoje, quando te olho, tenho certeza absoluta de que você é a moça sem rosto dos meus sonhos, aquela com quem eu dançava sem entender por quê. Agora eu entendo.</p>
-      <p>... (texto completo incluído no arquivo real)</p>
-    </article>
+<p style="white-space: pre-line; font-size:17px; line-height:1.7;">
+Oi moça…
 
-    <div class="byline">—</div>
-  </div>
-
-  <script>
-    const music = document.getElementById('bg-music');
-    const btn = document.getElementById('music-btn');
-    const status = document.getElementById('audio-status');
-    const src = document.getElementById('bg-src').getAttribute('src');
-
-    // checa disponibilidade do arquivo
-    fetch(src, {method:'HEAD'}).then(r => {
-      if (r.ok) status.textContent = 'Áudio encontrado — clique em Tocar piano para iniciar.';
-      else status.textContent = 'Áudio não encontrado (HTTP ' + r.status + '). Faça upload de piano.mp3 na raiz do repositório.';
-    }).catch(e => { status.textContent = 'Erro ao verificar áudio. Abra o site no Chrome e verifique a URL do mp3.'; console.warn(e); });
-
-    function setPlayingState(isPlaying){
-      btn.setAttribute('aria-pressed', String(!!isPlaying));
-      btn.textContent = isPlaying ? 'Pausar piano ⏸️' : 'Tocar piano 🎹';
-    }
-
-    btn.addEventListener('click', async () => {
-      status.style.color = '#444';
-      status.textContent = 'Tentando reproduzir...';
-      try {
-        await music.play();
-        setPlayingState(true);
-        status.textContent = 'Tocando — se não ouvir, verifique volume e abra no Chrome.';
-      } catch(err){
-        status.style.color = '#b02a2a';
-        status.textContent = 'Reprodução bloqueada. Abra a página no navegador (Chrome) e tente novamente.';
-        console.warn(err);
-      }
-    });
-
-    music.addEventListener('pause', () => setPlayingState(false));
-    music.addEventListener('play', () => setPlayingState(true));
-  </script>
+(cole aqui seu texto completo novamente caso queira ou mantenha ele externo)
+</p>
+</div>
 </body>
 </html>
